@@ -13,4 +13,4 @@ A multipurpose task management tool developed using Laravel, with a focus on spe
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This Project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
