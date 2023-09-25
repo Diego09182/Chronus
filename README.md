@@ -9,6 +9,8 @@
 
 ## About Laravel
 
+A multipurpose task management tool developed using Laravel, with a focus on speed, simplicity, and practicality.
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
