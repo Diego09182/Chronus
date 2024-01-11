@@ -9,17 +9,16 @@
 
 ## About Project
 
-A multipurpose task management tool developed using Laravel, with a focus on speed, simplicity, and practicality.
+一個簡潔有力的任務管理工具
 
 ## Installation 
 
-Install XAMPP to place this project into htdocs
+安裝XAMPP並放置於htdocs資料夾
 
 ## Data table migration 
 
-Start command line tool execution 
-"php artisan migrate"
+在控制台打開專案目錄執行"php artisan migrate"
 
 ## License
 
-This Project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+這個開源專案適用於 [MIT license](https://opensource.org/licenses/MIT).
