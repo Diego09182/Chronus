@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
-use App\Models\TaskList;
-use App\Models\Whiteboard;
-use App\Models\Activity;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DateTime;
-use Carbon\Carbon;
+use App\Services\TaskService;
 
 class TaskController extends Controller
 {
+
+    protected $taskService;
+
+    public function __construct(TaskService $taskService)
+    {
+        $this->taskService = $taskService;
+    }
 
     public function progress(Request $request, $id)
     {
@@ -28,85 +32,41 @@ class TaskController extends Controller
         $task = Task::find($id);
 
         if ($task) {
-
             $task->progress = $validatedData['progress'];
 
             if ($validatedData['progress'] == 100) {
                 $task->status = 1;
+                $task->finish_time = now(); 
             } else {
                 $task->status = 0;
             }
 
-            if ($validatedData['progress'] == 100) {
-                $task->finish_time = now(); 
-            }
-
             $task->save();
+
+            return response()->json(['success' => true, 'status' => $task->status, 'progress' => $task->progress]);
         }
 
-        return redirect()->back();
+        return response()->json(['success' => false, 'message' => 'Task not found'], 404);
     }
 
-
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        // 獲取任務頁面的頁碼，預設為1
-        $taskPage = request()->query('task_page', 1);
-        // 獲取列表頁面的頁碼，預設為1
-        $listPage = request()->query('list_page', 1);
-        // 獲取活動頁面的頁碼，預設為1
-        $activityPage = request()->query('activity_page', 1);
-
-        // 檢查任務數量是否超過限制
-        if (Task::count() > 20) {
-            session()->flash('error', '任務數量超過限制');
-        }
-
-        // 檢查列表數量是否超過限制
-        if (TaskList::count() > 20) {
-            session()->flash('error', '列表數量超過限制');
-        }
-
-        // 檢查活動數量是否超過限制
-        if (Activity::count() > 20) {
-            session()->flash('error', '活動數量超過限制');
-        }
-
-        // 獲取任務列表並進行分頁，每頁顯示2個任務
-        $tasks = Task::paginate(2, ['*'], 'task_page', $taskPage);
-        // 獲取列表資料並進行分頁，每頁顯示3個列表項目
-        $lists = TaskList::paginate(3, ['*'], 'list_page', $listPage);
-        // 獲取活動列表並進行分頁，每頁顯示5個活動
-        $activities = Activity::paginate(3, ['*'], 'activity_page', $activityPage);
-        // 獲取最新的白板資料
-        $whiteboard = Whiteboard::latest()->first();
-
-        $today = Carbon::now()->format('Y-m-d');
-        $activities->each(function ($activity) use ($today) {
-            if ($activity->date === $today) {
-                session()->flash('message', '有活動到期');
-            }
-        });
-
-        return view('tasks.index', compact('tasks', 'lists', 'whiteboard', 'activities'));
+        return view('main.index', $this->taskService->index());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('tasks.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+        try {
+            $this->taskService->checkTaskLimit();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
         $ValidatedData = $request->validate([
             'title' => 'required|max:15',
             'content' => 'required|max:30',
@@ -140,33 +100,16 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', '任務已成功新增！');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Task $task)
     {
-        return view('tasks.show', compact('task'));
+        $task = Task::with(['members', 'remarks', 'files'])->findOrFail($task->id);
+
+        $members = $task->members()->paginate(8);
+        $remarks = $task->remarks()->paginate(2);
+
+        return view('tasks.show', compact('task', 'members', 'remarks'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Task $task)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Task $task)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Task $task)
     {
         $task->delete();
@@ -182,8 +125,11 @@ class TaskController extends Controller
             $task->progress = 100;
             $task->finish_time = new DateTime();
             $task->save();
+            
+            return response()->json(['status' => $task->status]);
         }
-        return redirect()->back();
+
+        return response()->json(['error' => 'Task not found'], 404);
     }
 
     public function nofinish($id)
@@ -194,8 +140,11 @@ class TaskController extends Controller
             $task->progress = 0;
             $task->finish_time = null;
             $task->save();
+            
+            return response()->json(['status' => $task->status]);
         }
-        return redirect()->back();
+
+        return response()->json(['error' => 'Task not found'], 404);
     }
 
 }

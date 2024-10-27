@@ -16,27 +16,28 @@
 		$('.datepicker').datepicker();
 	});
 
-	new Vue({
-		el: '#app',
-		data: {
-			task: '',
-			content: '',
-			importance: '',
-			tag: '',
-			whiteboard: '',
-			list: '',
-			message: '操作完成',
-			activity: '',
-			location: '',
-			date:'',
-			name:'',
-			position:'',
-			title:'',
-			remark:'',
-			delay: 1000
+	const app = Vue.createApp({
+		data() {
+			return {
+				task: '',
+				content: '',
+				importance: '',
+				tag: '',
+				whiteboard: '',
+				list: '',
+				message: '操作完成',
+				activity: '',
+				location: '',
+				date:'',
+				name:'',
+				position:'',
+				title:'',
+				remark:'',
+				delay: 1000
+			};
 		},
 		methods: {
-			check_task: function() {
+			check_task() {
 				if (this.task.length === 0) {
 					alert("任務主題一定要填寫");
 					return false;
@@ -58,7 +59,7 @@
 					TaskForm.submit();
 				}, this.delay);
 			},
-			check_whiteboard: function() {
+			check_whiteboard() {
 				if (this.whiteboard.length === 0) {
 					alert("白板主題一定要填寫");
 					return false;
@@ -68,7 +69,7 @@
 					WhiteboardForm.submit();
 				}, this.delay);
 			},
-			check_list: function() {
+			check_list() {
 				if (this.list.length === 0) {
 					alert("事項內容一定要填寫");
 					return false;
@@ -82,7 +83,7 @@
 					ListForm.submit();
 				}, this.delay);
 			},
-			check_member: function() {
+			check_member() {
 				if (this.name.length === 0) {
 					alert("成員名稱一定要填寫");
 					return false;
@@ -104,7 +105,7 @@
 					MemberForm.submit();
 				}, this.delay);
 			},
-			check_remark: function() {
+			check_remark() {
 				if (this.title.length === 0) {
 					alert("註記主題一定要填寫");
 					return false;
@@ -126,7 +127,7 @@
 					RemarkForm.submit();
 				}, this.delay);
 			},
-			check_activity: function() {
+			check_activity() {
 				if (this.activity.length === 0) {
 					alert("活動名稱一定要填寫");
 					return false;
@@ -156,27 +157,30 @@
 					ActivityForm.submit();
 				}, this.delay);
 			},
-			delActivity: function(id) {
-			if (confirm("請確認是否刪除此活動？")) {
+			delActivity(id) {
+				if (confirm("請確認是否刪除此活動？")) {
 					M.toast({html: '活動已刪除成功！', displayLength: 3000});
 					setTimeout(() => {
 						location.href = "delActivity.php?id=" + id;
 					}, this.delay);
 				}
 			},
-			reset_task: function() {
+			reset_task() {
 				this.task = "";
 				this.content = "";
 				this.tag = "";
 			},
-			reset_whiteboard: function() {
+			reset_whiteboard() {
 				this.whiteboard = "";
 			},
-			reset_list: function() {
+			reset_list() {
 				this.list = "";
 			},
-			reset_activity: function() {
+			reset_activity() {
 				this.activity = "";
 			}
-	  	}
+		}
 	});
+	
+	app.mount('#app');
+	

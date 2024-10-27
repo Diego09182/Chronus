@@ -8,11 +8,11 @@ class CreateTasksTable extends Migration
 {
     public function up()
     {
-        Schema::create('my_tasks', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 15);
+            $table->string('title');
             $table->string('tag');
-            $table->text('content', 30);
+            $table->text('content');
             $table->boolean('status')->default(0);
             $table->integer('progress')->default(0)->unsigned()->nullable();
             $table->date('schedule')->nullable();
