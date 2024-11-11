@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Remark;
 use App\Services\RemarkService;
+use Illuminate\Http\Request;
 
 class RemarkController extends Controller
 {
-
     protected $remarkService;
 
     public function __construct(RemarkService $remarkService)
@@ -34,8 +33,8 @@ class RemarkController extends Controller
             'remark.required' => '請填寫註記內容',
             'remark.max' => '註記內容長度不能超過30個字',
         ]);
-        
-        $remark = new Remark();
+
+        $remark = new Remark;
         $remark->task_id = $id;
         $remark->title = $ValidatedData['title'];
         $remark->content = $ValidatedData['remark'];
@@ -44,7 +43,7 @@ class RemarkController extends Controller
         return redirect()->back()->with('success', '註記創建成功');
     }
 
-    public function destroy($id,$remark)
+    public function destroy($id, $remark)
     {
         $remark = Remark::where('task_id', $id)->findOrFail($remark);
 

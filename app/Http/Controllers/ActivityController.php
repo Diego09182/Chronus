@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Services\ActivityService;
+use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
-
     protected $activityService;
 
     public function __construct(ActivityService $activityService)
@@ -38,7 +36,7 @@ class ActivityController extends Controller
             'date.after' => '活動時間必須大於當前時間',
         ]);
 
-        $activity = new Activity();
+        $activity = new Activity;
         $activity->activity = $validatedData['activity'];
         $activity->content = $validatedData['content'];
         $activity->location = $validatedData['location'];

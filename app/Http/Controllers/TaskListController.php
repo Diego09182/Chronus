@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\TaskList;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Services\TaskListService;
+use Illuminate\Http\Request;
 
 class TaskListController extends Controller
 {
-
     protected $taskListService;
 
     public function __construct(TaskListService $taskListService)
@@ -28,10 +26,10 @@ class TaskListController extends Controller
         $ValidatedData = $request->validate([
             'title' => 'required|string|max:5',
         ],
-        [
-            'title.required' => '請填寫事項',
-            'title.max' => '標題長度不能超過5個字',
-        ]);
+            [
+                'title.required' => '請填寫事項',
+                'title.max' => '標題長度不能超過5個字',
+            ]);
 
         $list = new TaskList;
         $list->title = $ValidatedData['title'];

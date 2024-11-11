@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     use HasFactory;
+
     protected $fillable = ['title', 'tag', 'content', 'status', 'progress', 'schedule', 'start_time', 'finish_time', 'importance'];
 
     public function files()

@@ -15,5 +15,4 @@ class ActivityService
             throw new \Exception('活動數量已達上限，無法再創建新活動。');
         }
     }
-
 }

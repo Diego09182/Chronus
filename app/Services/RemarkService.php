@@ -15,5 +15,4 @@ class RemarkService
             throw new \Exception('備註數量已達上限，無法再創建新備註。');
         }
     }
-
 }

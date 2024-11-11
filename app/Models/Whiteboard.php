@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Whiteboard extends Model
 {
     use HasFactory;
+
     protected $table = 'whiteboard';
+
     protected $fillable = ['whiteboard'];
 }

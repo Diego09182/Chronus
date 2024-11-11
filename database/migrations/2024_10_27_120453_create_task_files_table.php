@@ -24,4 +24,3 @@ class CreateTaskFilesTable extends Migration
         Schema::dropIfExists('task_files');
     }
 }
-

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Whiteboard;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class WhiteboardController extends Controller

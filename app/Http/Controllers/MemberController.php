@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Member;
-use Illuminate\Http\Request;
 use App\Services\MemberService;
+use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
-
     protected $memberService;
 
     public function __construct(MemberService $memberService)
@@ -34,7 +34,7 @@ class MemberController extends Controller
             'position.max' => '職位長度不能超過10個字',
         ]);
 
-        $member = new Member();
+        $member = new Member;
         $member->task_id = $id;
         $member->name = $validatedData['name'];
         $member->position = $validatedData['position'];
@@ -43,7 +43,7 @@ class MemberController extends Controller
         return redirect()->back()->with('success', '成員創建成功');
     }
 
-    public function destroy($id,$member)
+    public function destroy($id, $member)
     {
         $member = Member::where('task_id', $id)->findOrFail($member);
 

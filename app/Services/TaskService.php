@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Activity;
 use App\Models\Task;
 use App\Models\TaskList;
 use App\Models\Whiteboard;
-use App\Models\Activity;
 use Carbon\Carbon;
 
 class TaskService

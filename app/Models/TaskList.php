@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class TaskList extends Model
 {
     use HasFactory;
+
     protected $table = 'lists';
+
     protected $fillable = ['title'];
 }

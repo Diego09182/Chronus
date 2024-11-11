@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Remark extends Model
 {
     use HasFactory;
-    protected $fillable = ['task_id','title','content'];
+
+    protected $fillable = ['task_id', 'title', 'content'];
 
     public function task()
     {
         return $this->belongsTo(Task::class);
     }
-
 }

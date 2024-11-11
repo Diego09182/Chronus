@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use DateTime;
 use App\Services\TaskService;
+use DateTime;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-
     protected $taskService;
 
     public function __construct(TaskService $taskService)
@@ -36,7 +34,7 @@ class TaskController extends Controller
 
             if ($validatedData['progress'] == 100) {
                 $task->status = 1;
-                $task->finish_time = now(); 
+                $task->finish_time = now();
             } else {
                 $task->status = 0;
             }
@@ -72,7 +70,7 @@ class TaskController extends Controller
             'content' => 'required|max:30',
             'progress' => 'required|numeric',
             'importance' => 'required|numeric|between:1,5',
-            'tag' => 'required'
+            'tag' => 'required',
         ], [
             'title.required' => '請填寫標題',
             'title.max' => '標題長度不能超過15個字',
@@ -123,9 +121,9 @@ class TaskController extends Controller
         if ($task) {
             $task->status = 1;
             $task->progress = 100;
-            $task->finish_time = new DateTime();
+            $task->finish_time = new DateTime;
             $task->save();
-            
+
             return response()->json(['status' => $task->status]);
         }
 
@@ -140,11 +138,10 @@ class TaskController extends Controller
             $task->progress = 0;
             $task->finish_time = null;
             $task->save();
-            
+
             return response()->json(['status' => $task->status]);
         }
 
         return response()->json(['error' => 'Task not found'], 404);
     }
-
 }
